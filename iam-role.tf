@@ -16,7 +16,7 @@ data "aws_iam_policy_document" "module-access-doc" {
         effect    = "Allow"
         resources = ["*"]
 
-        actions = [ var.actions ]
+        actions = var.actions
     }
 }
 
