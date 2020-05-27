@@ -1,3 +1,4 @@
+variable "identifier" { }
 variable "actions" {
     type = list(string)
     default = [
