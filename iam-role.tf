@@ -1,3 +1,7 @@
+data "aws_iam_policy" "AmazonGuardDutyReadOnlyAccess" {
+    arn = "arn:aws:iam::aws:policy/AmazonGuardDutyReadOnlyAccess"
+}
+
 data "aws_iam_policy_document" "module-assume-role" {
     statement {
         effect  = "Allow"
@@ -33,6 +37,11 @@ resource "aws_iam_role" "module-access-role" {
 resource "aws_iam_role_policy_attachment" "module-access-policy" {
   role   = aws_iam_role.module-access-role.id
   policy_arn = aws_iam_policy.module-access-doc.arn
+}
+
+resource "aws_iam_role_policy_attachment" "managed-access-policy" {
+  role   = aws_iam_role.module-access-role.id
+  policy_arn = data.aws_iam_policy.AmazonGuardDutyReadOnlyAccess.arn
 }
 
 resource "aws_iam_instance_profile" "main-profile" {
