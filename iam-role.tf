@@ -30,21 +30,22 @@ resource "aws_iam_policy" "module-access-doc" {
 }
 
 resource "aws_iam_role" "module-access-role" {
-  name               = "module-access-role-${var.identifier}"
-  assume_role_policy = data.aws_iam_policy_document.module-assume-role.json
+    name               = "module-access-role-${var.identifier}"
+    assume_role_policy = data.aws_iam_policy_document.module-assume-role.json
+    tags = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "module-access-policy" {
-  role   = aws_iam_role.module-access-role.id
-  policy_arn = aws_iam_policy.module-access-doc.arn
+    role   = aws_iam_role.module-access-role.id
+    policy_arn = aws_iam_policy.module-access-doc.arn
 }
 
 resource "aws_iam_role_policy_attachment" "managed-access-policy" {
-  role   = aws_iam_role.module-access-role.id
-  policy_arn = data.aws_iam_policy.AmazonGuardDutyReadOnlyAccess.arn
+    role   = aws_iam_role.module-access-role.id
+    policy_arn = data.aws_iam_policy.AmazonGuardDutyReadOnlyAccess.arn
 }
 
 resource "aws_iam_instance_profile" "main-profile" {
-  name = "module-access-profile-${var.identifier}"
-  role = aws_iam_role.module-access-role.name
+    name = "module-access-profile-${var.identifier}"
+    role = aws_iam_role.module-access-role.name
 }
